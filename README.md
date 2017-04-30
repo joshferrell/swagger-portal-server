@@ -20,8 +20,6 @@ A backend API that allows the rendering of swagger files and search for API docu
             description: string,
             swaggerDocument: file
         }
-    patch:
-        edit document
 
     /{uuid}
         get:
@@ -31,5 +29,12 @@ A backend API that allows the rendering of swagger files and search for API docu
                 title: string,
                 description: string,
                 swaggerUrl: string
+            }
+        patch:
+            edit document
+            {
+                title: string,
+                description: string,
+                swaggerDocument: file
             }
 ```
