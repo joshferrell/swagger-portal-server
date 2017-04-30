@@ -1,0 +1,90 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Swagger Documentation Portal
+  contact:
+    email: josh@joshferrell.me
+host: localhost:3000
+paths:
+  /docs:
+    get:
+      description: |
+        Gets a paginated list of Swagger docs of `Documents` schema
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Document"
+        400:
+          description: Bad request
+    post:
+      description: |
+        Upload a swagger document of `DocumentEdit` schema
+      parameters:
+        -
+          name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/DocumentEdit"
+      responses:
+        200:
+          description: successful operation
+  /docs/{id}:
+    get:
+      description: |
+        Get single swagger page information
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Document"
+    patch:
+      description: |
+        Edit the swagger api link
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+        -
+          name: body
+          in: body
+          schema:
+            $ref: "#/definitions/DocumentEdit"
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Document"
+definitions:
+  Document:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      title:
+        type: string
+      url:
+        type: string
+        format: url
+      description:
+        type: string
+  DocumentEdit:
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+      inputFile:
+        type: string
