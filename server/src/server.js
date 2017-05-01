@@ -1,5 +1,6 @@
 import Hapi from 'hapi';
 import { dbConnect } from './db/index';
+import { DocumentRoutes } from './docs/index';
 import config from './config/index';
 
 const server = new Hapi.Server();
@@ -8,11 +9,9 @@ server.connection({
     port: config.port
 });
 
-server.route({
-    method: 'GET',
-    path: '/hello',
-    handler: (request, reply) => reply('hello world')
-});
+server.route([
+    ...DocumentRoutes
+]);
 
 export const startServer = async () => {
     try {
