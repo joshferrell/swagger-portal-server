@@ -24,6 +24,14 @@
         "pg-hstore": "^2.3.2",
         "sequelize": "^3.30.4"
     },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/**/*.{js,jsx}",
+            "!**/node_modules/**",
+            "!**/vendor/**",
+            "!**/index.js"
+        ]
+    },
     "devDependencies": {
         "babel-cli": "^6.24.1",
         "babel-eslint": "^7.2.3",
