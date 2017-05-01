@@ -15,12 +15,15 @@ export const DocumentModel = sqlConnection.define('documents', {
             notEmpty: true
         }
     },
-    swaggerUrl: {
+    description: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    filePath: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            isUrl: true
+            notEmpty: true
         }
     }
 });
@@ -35,3 +38,15 @@ const getPlain = apiDocument =>
 export const get = id =>
     DocumentModel.findByPrimary(id)
         .then(apiDocument => getPlain(apiDocument));
+
+export const deleteDocument = id =>
+    DocumentModel.findByPrimary(id)
+        .then(apiDocument => apiDocument.destroy());
+
+export const createDocument = (title, filePath, description = null) =>
+    DocumentModel.create({ title, filePath, description })
+        .then(apiDocument => getPlain(apiDocument));
+
+export const updateDocument = (id, key, value) =>
+    DocumentModel.update({ [key]: value }, { where: { id } })
+        .then(() => get(id));
