@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import config from '../config/index';
-import { sqlConnection } from '../db/orm';
+import { sqlConnection } from '../db/sequelize';
 
 console.log(sqlConnection);
 export const DocumentModel = sqlConnection.define('documents', {

@@ -1,6 +1,5 @@
 import Sequelize from 'sequelize';
 import config from '../config/index';
-import * as documentModel from '../docs/docs.model';
 
 const {
     host,
@@ -16,6 +15,7 @@ export const sqlConnection = new Sequelize(dbname, user, password, {
     dialect: 'postgres'
 });
 
+import * as documentModel from '../docs/docs.model';
 export const init = () => {
     const models = [
         documentModel.options
