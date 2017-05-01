@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import config from '../config/index';
+import { config } from '../config/index';
 
 const {
     host,

@@ -1,7 +1,7 @@
 import Hapi from 'hapi';
 import { dbConnect } from './db/index';
 import { DocumentRoutes } from './docs/index';
-import config from './config/index';
+import { config, log } from './config/index';
 
 const server = new Hapi.Server();
 server.connection({
@@ -25,10 +25,10 @@ export const startServer = async () => {
                 throw err;
             }
 
-            console.log('Server running at:', server.info.uri);
+            log.debug('Server running at:', server.info.uri);
         });
-    } catch (e) {
-        console.log(err, 'Failed to start server');
+    } catch (err) {
+        log.error(err, 'Failed to start server');
     }
 };
 

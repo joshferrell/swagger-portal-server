@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import config from '../config/index';
+import { config } from '../config/index';
 import { sqlConnection } from '../db/index';
 
 export const DocumentModel = sqlConnection.define('documents', {
