@@ -1,3 +1,6 @@
+# Environment Fields
+*.env
+
 # Logs
 logs
 *.log

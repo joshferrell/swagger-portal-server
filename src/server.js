@@ -1,4 +1,5 @@
 import Hapi from 'hapi';
+import { connect } from './db/orm';
 
 const server = new Hapi.Server();
 server.connection({
@@ -12,10 +13,22 @@ server.route({
     handler: (request, reply) => reply('hello world')
 });
 
-server.start((err) => {
-    if (err) {
-        throw err;
-    }
+export const startServer = async () => {
+    try {
+        await connect();
 
-    console.log('Server running at:', server.info.uri);
-});
+        server.start((err) => {
+            if (err) {
+                throw err;
+            }
+
+            console.log('Server running at:', server.info.uri);
+        });
+    } catch (e) {
+        console.log(err, 'Failed to start server');
+    }
+};
+
+startServer();
+
+export default startServer;
