@@ -17,3 +17,8 @@ npm install && npm install --only=dev
 * `npm run test`: Run through Jest spec tests
 * `npm run lint`: Run through Eslint requirements (required for pull request)
 * `npm run coverage`: Run trough Jest coverage tests
+
+## View API documentation
+This server comes with a defined API specification (yes, you can upload the swagger for the api documentation portal to the api documentation portal).
+
+[View the API Documentation](https://rebilly.github.io/ReDoc/?url=https://raw.githubusercontent.com/joshferrell/swagger-portal-server/master/documentation/swagger.yaml)
