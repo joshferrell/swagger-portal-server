@@ -1,8 +1,7 @@
 import Sequelize from 'sequelize';
 import config from '../config/index';
-import { sqlConnection } from '../db/sequelize';
+import { sqlConnection } from '../db/index';
 
-console.log(sqlConnection);
 export const DocumentModel = sqlConnection.define('documents', {
     id: {
         type: Sequelize.UUID,

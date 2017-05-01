@@ -1,5 +1,5 @@
 import Hapi from 'hapi';
-import { connect } from './db/orm';
+import { dbConnect } from './db/index';
 
 const server = new Hapi.Server();
 server.connection({
@@ -15,7 +15,7 @@ server.route({
 
 export const startServer = async () => {
     try {
-        await connect();
+        await dbConnect();
 
         server.start((err) => {
             if (err) {
