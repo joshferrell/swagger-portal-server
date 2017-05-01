@@ -50,3 +50,6 @@ export const createDocument = (title, filePath, description = null) =>
 export const updateDocument = (id, key, value) =>
     DocumentModel.update({ [key]: value }, { where: { id } })
         .then(() => get(id));
+
+export const getAll = () =>
+    DocumentModel.findAll();
