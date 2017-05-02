@@ -6,7 +6,8 @@ import { config, log } from './config/index';
 const server = new Hapi.Server();
 server.connection({
     host: 'localhost',
-    port: config.port
+    port: config.port,
+    routes: { cors: true }
 });
 
 server.route([
