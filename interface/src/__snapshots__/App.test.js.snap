@@ -1,0 +1,27 @@
+exports[`test should render the search view by default 1`] = `
+<div
+  className="App">
+  <div
+    className="App-header">
+    <img
+      alt="logo"
+      className="App-logo"
+      src="logo.svg" />
+    <h2>
+      Welcome to React
+    </h2>
+  </div>
+  <section>
+    <form>
+      <label>
+        Filter API
+      </label>
+      <input
+        onInput={[Function]}
+        value="" />
+    </form>
+    <ul
+      className="List" />
+  </section>
+</div>
+`;
