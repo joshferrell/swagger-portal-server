@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+  server:
+    image: node:7
+    working_dir: /usr/src/app
+    volumes:
+      - ./server:/usr/src/app
+    ports:
+      - 8000:8000
+    links:
+      - postgres
+    command: npm start
+  interface:
+    image: node:7
+    working_dir: /usr/src/app
+    volumes:
+      - ./interface:/usr/src/app
+    ports:
+      - 3000:3000
+    links:
+      - server
+    command: npm start

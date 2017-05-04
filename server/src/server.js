@@ -1,38 +1,27 @@
 import Hapi from 'hapi';
-import { dbConnect } from './db/index';
-import { DocumentRoutes } from './docs/index';
-import { config, log } from './config/index';
+import DotEnv from 'dotenv-safe';
 
-const server = new Hapi.Server();
-server.connection({
-    host: 'localhost',
-    port: config.port,
-    routes: { cors: true }
-});
+import { createLogger } from './logger';
+import { createConnection } from './orm';
+import { createDocumentRoutes } from './docs/docs.routes';
+import * as DocumentModel from './docs/docs.model';
 
-server.route([
-    ...DocumentRoutes
-]);
+DotEnv.load();
 
-export const startServer = async () => {
-    try {
-        const connection = await dbConnect();
-        if (connection === false) {
-            throw new Error('Unable to connect to database');
-        }
+const logger = createLogger(process.env.SERVER_NAME);
+const sequelize = createConnection();
+const documentModel = DocumentModel.create(sequelize);
+const documentRoutes = createDocumentRoutes(logger, documentModel);
 
-        server.start((err) => {
-            if (err) {
-                throw err;
-            }
-
-            log.debug('Server running at:', server.info.uri);
-        });
-    } catch (err) {
-        log.error(err, 'Failed to start server');
-    }
+const startServer = () => {
+    const server = new Hapi.Server();
+    server.connection({ port: process.env.SERVER_PORT, routes: { cors: true } });
+    server.route(documentRoutes);
+    server.start();
+    logger.info(
+      `server started @ http://${server.info.host}:${server.info.port}`);
 };
 
-startServer();
+const failServer = err => logger.error(err);
 
-export default startServer;
+documentModel.sync().then(startServer, failServer);

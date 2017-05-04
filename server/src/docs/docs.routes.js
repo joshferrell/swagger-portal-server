@@ -1,71 +1,88 @@
-import joi from 'joi';
+import Joi from 'joi';
 import Boom from 'boom';
-import { log } from '../config/index';
-import * as documentService from './docs.service';
 
-const documentRoutes = [
-    {
+const getPlain = data => (data ? data.get({ plain: true }) : null);
+
+export const createDocumentRoutes = (logger, model) => {
+    const getAllDocuments = {
         method: 'GET',
         path: '/docs',
         handler: (request, reply) =>
-            documentService.getAllDocuments()
-                .then(apiDocuments => reply(apiDocuments))
+            model.findAll()
+                .then(docs => docs.map(getPlain))
+                .then(docs => reply(docs))
                 .catch((err) => {
-                    log.error(err, 'Unable to fetch Documents');
+                    logger.error(err, 'Unable to fetch Documents');
                     reply(Boom.internal());
                 })
-    },
-    {
+    };
+
+    const createNewDocument = {
         method: 'POST',
         path: '/docs',
         config: {
             validate: {
                 payload: {
-                    title: joi.string().required(),
-                    description: joi.string().required(),
-                    swaggerFile: joi.any().required()
+                    title: Joi.string().required(),
+                    description: Joi.string().required(),
+                    swaggerFile: Joi.any().required()
                 }
             }
         },
-        handler: (request, reply) =>
-            documentService.createDocument(request.payload)
-                .then(apiDocument => reply(apiDocument))
+        handler: (request, reply) => {
+            const { title, description, swaggerFile } = request.payload;
+            return model
+                .create({ title, description, filePath: swaggerFile })
+                .then(d => reply(d))
                 .catch((err) => {
-                    log.error(err, 'Unable to create new document');
+                    logger.error(err, `Unable to fetch document: ${request.params.id}`);
                     reply(Boom.internal());
-                })
-    },
-    {
+                });
+        }
+    };
+
+    const getDocumentById = {
         method: 'GET',
         path: '/docs/{id}',
         handler: (request, reply) =>
-            documentService.getDocument(request.params)
-                .then(apiDocument => reply(apiDocument))
+            model.findByPrimary(request.params.id)
+                .then(getPlain)
+                .then(d => reply(d))
                 .catch((err) => {
-                    log.error(err, `Unable to fetch document: ${request.params.id}`);
+                    logger.error(err, `Unable to fetch document: ${request.params.id}`);
                     reply(Boom.internal);
                 })
-    },
-    {
+    };
+
+    const patchExistingDocument = {
         method: 'PATCH',
         path: '/docs/{id}',
         config: {
             validate: {
-                payload: joi.object({
-                    title: joi.string(),
-                    description: joi.string(),
-                    swaggerFile: joi.string()
+                payload: Joi.object({
+                    title: Joi.string(),
+                    description: Joi.string(),
+                    swaggerFile: Joi.string()
                 }).required()
             }
         },
-        handler: ({ params, payload }, reply) =>
-            documentService.updateValues(params.id, payload)
-                .then(apiDocument => reply(apiDocument))
-                .catch((err) => {
-                    log.error(err, `Unable to update document: ${params.id}`);
-                    reply(Boom.internal);
-                })
-    }
-];
+        handler: ({ params, payload }, reply) => {
+            const updates = Object
+              .keys(payload)
+              .map(key => model.updateDocument(params.id, key, payload));
+            return Promise.all(updates)
+              .then(doc => reply(doc))
+              .catch((err) => {
+                  logger.error(err, `Unable to update document: ${params.id}`);
+                  reply(Boom.internal);
+              });
+        }
+    };
 
-export default documentRoutes;
+    return [
+        getAllDocuments,
+        createNewDocument,
+        getDocumentById,
+        patchExistingDocument
+    ];
+};
