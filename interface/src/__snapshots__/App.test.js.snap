@@ -3,10 +3,6 @@ exports[`test should render the search view by default 1`] = `
   className="App">
   <div
     className="App-header">
-    <img
-      alt="logo"
-      className="App-logo"
-      src="logo.svg" />
     <h2>
       Welcome to React
     </h2>
@@ -21,7 +17,7 @@ exports[`test should render the search view by default 1`] = `
         value="" />
     </form>
     <ul
-      className="List" />
+      className="d-flex List px-0" />
   </section>
 </div>
 `;

@@ -20,7 +20,8 @@ const healthRoutes = createHealthRoutes(logger, documentModel);
 const startServer = () => {
     const server = new Hapi.Server();
     server.connection({
-        port: process.env.SERVER_PORT
+        port: process.env.SERVER_PORT,
+        routes: { cors: true }
     });
     server.register(Inert, () => {
         server.route({

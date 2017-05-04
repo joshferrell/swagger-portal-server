@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import './Search.css';
-import { match } from './Utils';
+import { checkResults } from './Utils';
 import AppCard from './Widgets/AppCard';
 
 export default class Search extends Component {
@@ -13,18 +13,10 @@ export default class Search extends Component {
         this.setState({ text: e.target.value });
     }
 
-
-    // createdAt:"2017-05-04T17:10:44.457Z"
-    // description:"bar1"
-    // filePath:"foobar1"
-    // id:"207e15e2-1e7e-4899-b718-b6ed8a71eef6"
-    // title:"foo1"
-    // updatedAt:"2017-05-04T17:10:44.457Z"
-
     renderResult = results =>
-        <ul className="d-flex List">
+        <ul className="d-flex List px-0">
             {results.map(app =>
-                <li key={app.id} className="col-md-4">
+                <li key={app.id} className="col-md-4 col-sm-6">
                     <AppCard
                       title={app.title}
                       description={app.description}
@@ -45,8 +37,9 @@ export default class Search extends Component {
         const apis = this.props.apis;
         const text = this.state.text;
 
-        const results = (text.length > 0)
-      ? apis.filter(x => match(text, x.title)) : apis;
+        const results = (text.length > 0) ?
+            checkResults(text, apis) :
+            apis;
 
         return (<section>
             { this.renderForm(text) }
