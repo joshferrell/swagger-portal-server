@@ -15,22 +15,22 @@ export const createHealthRoutes = (logger, model) => {
             return model.findAll()
                 .then(() => {
                     const duration = new Date() - start;
-                    reply({
+                    reply([{
                         name: 'postgres',
                         up: true,
                         msg: `postgres is up. query time: ${duration}ms`,
                         duration
-                    });
+                    }]);
                 })
                 .catch((err) => {
                     const duration = new Date() - start;
                     logger.error(err, 'Unable to connect to postgres');
-                    reply({
+                    reply([{
                         name: 'postgress',
                         up: false,
                         msg: `postgress is down. query time: ${duration}ms`,
                         duration
-                    });
+                    }]);
                 });
         }
     };
