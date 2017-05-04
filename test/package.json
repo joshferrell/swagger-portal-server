@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "jest src/api.test.js"
+    "test": "jest"
   },
   "devDependencies": {
     "chromedriver": "^2.29.0",
