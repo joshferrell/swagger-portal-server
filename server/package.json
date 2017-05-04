@@ -7,16 +7,17 @@
     "author": "Josh Ferrell",
     "license": "MIT",
     "scripts": {
-        "test": "DEBUG=true jest --watch",
-        "build": "babel-node src/server.js",
-        "start": "DEBUG=true nodemon src/server.js --exec babel-node",
+        "test": "jest",
+        "test-watch": "jest --watch",
+        "start": "nodemon src/server.js --exec babel-node",
         "lint": "eslint ./src/**/*.js",
-        "coverage": "DEBUG=true jest --coverage"
+        "coverage": "jest --coverage"
     },
     "dependencies": {
         "boom": "^4.3.1",
         "bunyan": "^1.8.10",
         "dotenv": "^4.0.0",
+        "dotenv-safe": "^4.0.4",
         "good": "^7.1.0",
         "good-bunyan": "^1.2.0",
         "hapi": "^16.1.1",
