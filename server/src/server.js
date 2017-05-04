@@ -15,7 +15,7 @@ const documentRoutes = createDocumentRoutes(logger, documentModel);
 
 const startServer = () => {
     const server = new Hapi.Server();
-    server.connection({ port: process.env.SERVER_PORT });
+    server.connection({ port: process.env.SERVER_PORT, routes: { cors: true } });
     server.route(documentRoutes);
     server.start();
     logger.info(
