@@ -28,7 +28,7 @@ export default class Search extends Component {
                     <AppCard
                       title={app.title}
                       description={app.description}
-                      actionLink={{ title: 'View API', url: app.filePath }}
+                      actionLink={{ title: 'View API', url: `/swagger.html?url=${app.filePath}` }}
                     />
                 </li>
             )}
