@@ -14,7 +14,7 @@ export default class Search extends Component {
 
   renderResult( results ) {
     return <ul className="List">{
-      results.map( r => <li key={ r.id }>{ r.title }</li> )
+      results.map( r => <li key={ r.id }><a href={ `/${r.id}` }>{ r.title }</a></li> )
     }</ul>
   }
 
