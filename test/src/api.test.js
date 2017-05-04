@@ -21,7 +21,7 @@ beforeEach( deleteDocuments )
 
 const prop = name => obj => obj[name]
 const promiseLogger = (x) => { console.log(x); return x; }
-const url = "http://localhost:8000/docs"
+const url = `${process.env.SERVER_URL}/docs`
 const docs = [
   { title: "foo1", description: "bar1", swaggerFile: "foobar1" },
   { title: "foo2", description: "bar2", swaggerFile: "foobar2" }
