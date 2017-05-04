@@ -1,40 +1,58 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import './Search.css';
 import { match } from './Utils';
 
 export default class Search extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { text: "", apis: [] }
-  }
+    static propTypes = {
+        apis: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number.isRequired,
+                title: PropTypes.string.isRequired
+            })
+        ).isRequired
+    };
 
-  changeFilter( e ) {
-    this.setState( { text: e.target.value } )
-  }
+    constructor(props) {
+        super(props);
+        this.state = { text: '', apis: [] };
 
-  renderResult( results ) {
-    return <ul className="List">{
-      results.map( r => <li key={ r.id }>{ r.title }</li> )
-    }</ul>
-  }
+        this.changeFilter = this.changeFilter.bind(this);
+    }
 
-  renderForm( text ) {
-    return <form>
-      <label>Filter API</label>
-      <input value={ text } onInput={ this.changeFilter.bind( this ) } />
-    </form>
-  }
+    changeFilter = (e) => {
+        this.setState({ text: e.target.value });
+    }
 
-  render() {
-    const apis = this.props.apis
-    const text = this.state.text
+    renderResult = results =>
+        <ul className="List">
+            {results.map(({ id, title }) =>
+                <li key={id}>{title}</li>)
+            }
+        </ul>;
 
-    const results = ( text.length > 0 )
-      ? apis.filter( x => match( text, x.title ) ) : apis
+    renderForm = text =>
+        <form>
+            <label>Filter API
+                <input
+                  value={text}
+                  onInput={this.changeFilter}
+                />
+            </label>
+        </form>;
 
-    return <section>
-      { this.renderForm( text ) }
-      { this.renderResult( results ) }
-    </section>
-  }
+    render() {
+        const { apis } = this.props;
+        const { text } = this.state;
+
+        const results = (text.length > 0) ?
+            apis.filter(api => match(text, api.title)) :
+            apis;
+
+        return (
+            <section>
+                { this.renderForm(text) }
+                { this.renderResult(results) }
+            </section>
+        );
+    }
 }
