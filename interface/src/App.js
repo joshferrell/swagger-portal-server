@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import logo from './logo.svg';
 import Search from './Search';
@@ -14,7 +14,7 @@ export default class App extends Component {
 
   renderDocument(request) {
       const { id } = request.match.params
-      const doc = find( propEq( "id", id ), this.state.apis )
+      const doc = find( propEq( 'id', id ), this.state.apis )
       if ( doc ) {
         return <Document id={ id } title={ doc.title } />
       }
@@ -24,7 +24,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    fetch( "http://localhost:8000/docs" )
+    fetch( '/docs' )
       .then( toJson )
       .then( apis => this.setState( { apis } ) )
       .then( promiseLogger )
