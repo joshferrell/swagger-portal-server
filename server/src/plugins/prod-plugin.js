@@ -21,12 +21,6 @@ export const createGoodOptions = (logger) => {
                     args: [eventFilter]
                 },
                 {
-                    module: 'white-out',
-                    args: [{
-                        Authorization: 'censor'
-                    }]
-                },
-                {
                     module: 'good-bunyan',
                     args: [
                         eventFilter,
@@ -50,8 +44,6 @@ export const createGoodOptions = (logger) => {
 const createProductionPlugins = (logger) => {
     const goodOptions = createGoodOptions(logger);
     return [
-        { plugin: 'inert' },
-        { plugin: 'vision' },
         {
             plugin: {
                 register: 'good',

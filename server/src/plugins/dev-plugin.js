@@ -31,6 +31,8 @@ export const createSwaggerOptions = (serverInfo, packageData) => ({
 const createDevPlugins = (serverInfo, packageData) => {
     const swaggerOptions = createSwaggerOptions(serverInfo, packageData);
     return [
+        { plugin: 'inert' },
+        { plugin: 'vision' },
         {
             plugin: {
                 register: 'hapi-swagger',

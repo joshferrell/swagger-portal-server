@@ -1,5 +1,4 @@
 import {
-    createLocalPlugins,
     createDevPlugins,
     createProdPlugins
 } from './plugins';
@@ -13,7 +12,6 @@ import { packageData } from './utility';
  * @return {object}             server manifest
  */
 const createManifest = (environment, serverInfo, logger) => {
-    const localPlugins = ['local'].includes(environment) ? createLocalPlugins() : [];
     const developmentPlugins = ['development', 'local'].includes(environment) ? createDevPlugins(serverInfo, packageData) : [];
     const productionPlugins = createProdPlugins(logger);
 
@@ -28,16 +26,11 @@ const createManifest = (environment, serverInfo, logger) => {
                 routes: {
                     cors: true
                 }
-            },
-            {
-                port: 3001,
-                labels: ['interface']
             }
         ],
         registrations: [
             ...productionPlugins,
-            ...developmentPlugins,
-            ...localPlugins
+            ...developmentPlugins
         ]
     });
 };

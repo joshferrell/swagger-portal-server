@@ -56,7 +56,7 @@ export const postFormat = {
         .example('https://hub.docker.com/r/jferrell/swagger-portal-server/')
 };
 
-export const responseFormat = {
+export const responseFormat = joi.object().keys({
     id: joi.string().uuid(['uuidv4']).required(),
     url: joi.string().uri().required()
         .description('url that the data can be fetched from'),
@@ -67,4 +67,4 @@ export const responseFormat = {
         .description('date that the data was last updated')
         .example('2017-01-02'),
     ...postFormat
-};
+});
