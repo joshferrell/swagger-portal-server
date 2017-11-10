@@ -40,4 +40,4 @@ jspm_packages
 .node_repl_history
 
 /interface/build
-/server/lib
+/server/build
