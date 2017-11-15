@@ -5,8 +5,8 @@
   "main": "lib/server.js",
   "repository": "https://github.com/joshferrell/swagger-portal-server/tree/master/server",
   "author": {
-      "name": "Josh Ferrell",
-      "url": "https://github.com/joshferrell/swagger-portal-server"
+    "name": "Josh Ferrell",
+    "url": "https://github.com/joshferrell/swagger-portal-server"
   },
   "license": "MIT",
   "scripts": {
@@ -32,6 +32,7 @@
     "hapi-swagger": "^8.0.0",
     "inert": "^4.2.1",
     "joi": "^13.0.1",
+    "moment": "^2.19.1",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
     "pkginfo": "^0.4.1",

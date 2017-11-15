@@ -1,7 +1,14 @@
 import { compose } from 'glue';
+import Sequelize from 'sequelize';
 import { createLogger, stdSerializers } from 'bunyan';
 import dotenv from 'dotenv-safe';
 import createManifest from './manifest';
+
+import {
+    createConnection,
+    createDocModel,
+    createTagModel
+} from './connection';
 
 import createDocRoutes from './docs';
 import createHealthRoutes from './health';
@@ -20,6 +27,11 @@ const log = createLogger({
     },
     level: 'trace'
 });
+
+const connection = createConnection(Sequelize, log);
+const DocModel = createDocModel(connection);
+const TagModel = createTagModel(connection);
+DocModel.hasMany(TagModel);
 
 const startServer = (server) => {
     const healthRoutes = createHealthRoutes();

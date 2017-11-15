@@ -12,7 +12,8 @@ import { packageData } from './utility';
  * @return {object}             server manifest
  */
 const createManifest = (environment, serverInfo, logger) => {
-    const developmentPlugins = ['development', 'local'].includes(environment) ? createDevPlugins(serverInfo, packageData) : [];
+    const developmentPlugins = ['development', 'local'].includes(environment) ?
+        createDevPlugins(serverInfo, packageData) : [];
     const productionPlugins = createProdPlugins(logger);
 
     return ({

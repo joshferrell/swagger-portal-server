@@ -1,15 +1,27 @@
-import boom from 'boom';
 import joi from 'joi';
 import { format } from '../utility';
-import { postFormat, responseFormat, patchFormat } from '.';
+import {
+    postFormat,
+    responseFormat,
+    patchFormat,
+    makeGetAllDocuments,
+    makeCreateDocument,
+    makeGetDocument,
+    makeUpdateDocument,
+    makeDeleteDocument
+} from '.';
 
-const createDocRoutes = () => {
-    const notImplemented = (request, reply) => reply(boom.notImplemented());
+const createDocRoutes = (model, url) => {
+    const handleGetAllDocuments = makeGetAllDocuments(model, url);
+    const handleCreateDocument = makeCreateDocument(model, url);
+    const handleGetDocument = makeGetDocument(model, url);
+    const handleUpdateDocument = makeUpdateDocument(model, url);
+    const handleDeleteDocument = makeDeleteDocument(model);
 
     const getAllDocuments = {
         method: 'GET',
         path: '/docs',
-        handler: notImplemented,
+        handler: handleGetAllDocuments,
         config: {
             tags: ['api', 'Documentation'],
             plugins: {
@@ -30,7 +42,7 @@ const createDocRoutes = () => {
     const createNewDocument = {
         method: 'POST',
         path: '/docs',
-        handler: notImplemented,
+        handler: handleCreateDocument,
         config: {
             validate: { payload: postFormat },
             tags: ['api', 'Documentation'],
@@ -54,7 +66,7 @@ const createDocRoutes = () => {
     const getDocument = {
         method: 'GET',
         path: '/docs/{id}',
-        handler: notImplemented,
+        handler: handleGetDocument,
         config: {
             validate: {
                 params: {
@@ -81,7 +93,7 @@ const createDocRoutes = () => {
     const updateDocument = {
         method: 'PATCH',
         path: '/docs/{id}',
-        handler: notImplemented,
+        handler: handleUpdateDocument,
         config: {
             validate: {
                 payload: patchFormat,
@@ -111,7 +123,7 @@ const createDocRoutes = () => {
     const deleteDocument = {
         method: 'DELETE',
         path: '/docs/{id}',
-        handler: notImplemented,
+        handler: handleDeleteDocument,
         config: {
             validate: {
                 params: {

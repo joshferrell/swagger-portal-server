@@ -1,13 +1,18 @@
-import boom from 'boom';
 import { format } from '../utility';
+import {
+    healthStatus,
+    makeDependencyStatus,
+    makeCheckDatabase
+} from '.';
 
-const createHealthRoutes = () => {
-    const notImplemented = (request, reply) => reply(boom.notImplemented());
+const createHealthRoutes = (model, logger) => {
+    const checkPostgres = makeCheckDatabase('Postgres', model, logger);
+    const dependencyStatus = makeDependencyStatus([checkPostgres]);
 
     const checkServer = {
         method: 'GET',
         path: '/healthCheck',
-        handler: notImplemented,
+        handler: healthStatus,
         config: {
             auth: false,
             tags: ['api', 'Server Utilities'],
@@ -29,7 +34,7 @@ const createHealthRoutes = () => {
     const checkDependencies = {
         method: 'GET',
         path: '/healthCheck/all',
-        handler: notImplemented,
+        handler: dependencyStatus,
         config: {
             auth: false,
             tags: ['api', 'Server Utilities'],
